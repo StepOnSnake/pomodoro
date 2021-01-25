@@ -1,5 +1,7 @@
+import { userScore, userTheme } from "../index";
+
 import { pomoBox, score } from "./divSelectors";
-import { userScore } from "../index";
+import { useDarkTheme, useLightTheme } from "./themes";
 
 let defaultSound = "./assets/sounds/cocGame.mp3";
 
@@ -19,26 +21,51 @@ const boxText = (min, sec) => {
 
 // for wrong btn click
 const displayError = (text) => (pomoBox.innerText = text);
+
 const showWarnings = () => {
-  pomoBox.innerText = "Bruh dont";
+  //
+};
+
+const addTortureAnimation = () => {
+  pomoBox.style.cssText =
+    "background-image: url('https://media1.tenor.com/images/5fe35bec1c80a880bf59ae32a9716ace/tenor.gif?itemid=8953038'); ";
+  displayError('>:(');
+};
+
+const stopTortureAnimation = () => {
+  pomoBox.style.cssText = "animation: none; background-image: none;";
+
+  if (userTheme == "dark") useDarkTheme();
 };
 
 const saveLocalStorage = () => {
   localStorage.setItem("savedScore", userScore);
+  localStorage.setItem("savedTheme", userTheme);
 };
 
 const checkLocalStorage = () => {
   if (localStorage.length > 0) {
     userScore = localStorage.getItem("savedScore");
+    userTheme = localStorage.getItem("savedTheme");
+
     score.innerText = "Score : " + userScore;
+    userTheme == "dark" ? useDarkTheme() : useLightTheme();
   }
 };
+
+/*
+const makeSettings = function (theme, score) {
+  return { theme, score };
+}; */
 
 export {
   timerSound,
   boxText,
   displayError,
   showWarnings,
+  addTortureAnimation,
+  stopTortureAnimation,
   saveLocalStorage,
   checkLocalStorage,
+  // makeSettings,
 };
